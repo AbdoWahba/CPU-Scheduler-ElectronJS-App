@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="bootstrap-4.0.0/dist/css/bootstrap.css" />
+  </head>
+  <body>
+    <div class="row justify-content-center mb-5 m-2">
+      <div class="card mb-6 col-sm-10 ">
+        <div class="card-body ">
+          <form class="m-1" onkeypress="return disable_enter_key(event)">
+            <div class="form-group">
+              <label>Type of scheduler</label>
+              <select
+                id="type of scheduler"
+                class="form-control"
+                placeholder="Type of scheduler"
+                onchange="append_based_on_type_and_number()"
+              >
+                <option disabled>Select type of scheduler ...</option>
+                <option>FCFS</option>
+                <option>SJF</option>
+                <option>Priority</option>
+                <option>RR</option>
+              </select>
+            </div>
+            <div class="form-group integer optional user_friends">
+              <label class="integer optional" for="user_friends"
+                >No of Processes</label
+              ><input
+                min="0"
+                class="form-control numeric integer optional"
+                placeholder="Enter no of Processes"
+                type="number"
+                step="1"
+                onchange="append_based_on_type_and_number()"
+                id="no of Processes"
+              />
+              <hr />
+            </div>
+            <div id="wrapper"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="JS/mainWindow.js"></script>
+  </body>
+</html>

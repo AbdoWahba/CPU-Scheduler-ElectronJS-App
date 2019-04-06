@@ -1,0 +1,14 @@
+{
+  "name": "gui-for-cpu-scheduler",
+  "version": "1.0.0",
+  "description": "OS assignment",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "Abdo, Anss, Hady, Akrm",
+  "license": "ISC",
+  "dependencies": {
+    "electron": "^4.1.1"
+  }
+}
