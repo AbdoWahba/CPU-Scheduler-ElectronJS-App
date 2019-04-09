@@ -106,7 +106,8 @@ function submitform(e) {
       }
     }
     console.log(obj);
-  } else if (type_of_scheduler == "") {
+  } else if (type_of_scheduler == "SJF-N") {
+    //
   }
   var item = JSON.stringify(obj);
   ipcRenderer.send("item:add", item);
