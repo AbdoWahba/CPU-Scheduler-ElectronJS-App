@@ -109,3 +109,4 @@ function submitform(e) {
   var item = JSON.stringify(obj);
   ipcRenderer.send("item:add", item);
 }
+
