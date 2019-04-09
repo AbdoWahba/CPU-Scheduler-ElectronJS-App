@@ -71,37 +71,41 @@ function append_based_on_type_and_number() {
   }
 }
 function submitform(e) {
-  e.preventDefault();
+  //e.preventDefault();
   var no_of_Processes = document.getElementById("no of Processes").value;
-  var obj = {};
+  var obj = [];
   for (let j = 1; j <= no_of_Processes; j++) {
     var burst = document.getElementById("burst" + j).value;
     var arrival = document.getElementById("arrival" + j).value;
-    obj["p" + j] = [burst, arrival];
+    obj[j - 1] = { p: "p" + j, a: Number(arrival), b: Number(burst) };
   }
-  var HIGHOFHIGH = Number(no_of_Processes) + 1;
-  obj["p" + HIGHOFHIGH] = [1, 500000];
 
-  var edited_obj = [];
-  var first = "p1";
+  console.log(obj);
+
   var time_line = 0;
 
-  for (let j = 1; j <= HIGHOFHIGH; j++) {
-    console.log(obj);
-    console.log(obj["p" + j]);
-    console.log(obj["p1"][0]);
-    for (let zo = 1; zo <= HIGHOFHIGH; zo++) {
-      if (obj["p" + j][1] > obj["p" + zo][0]) {
-        first = "p" + zo;
-      } else {
-        first = "p" + j;
+  for (let j = 0; j < no_of_Processes; j++) {
+    for (let zo = 0; zo < no_of_Processes - 1; zo++) {
+      if (obj[zo]["a"] > obj[zo + 1]["a"]) {
+        var temp = obj[zo + 1];
+        obj[zo + 1] = obj[zo];
+        obj[zo] = temp;
       }
     }
-    edited_obj += [time_line, time_line + obj[first][0], first];
-    time_line += obj[first][0];
-    //delete obj[first];
   }
+  console.log(obj);
+  for (let j = 0; j < no_of_Processes; j++) {
+    if (time_line >= obj[j]["a"]) {
+      obj[j]["a"] = time_line;
+      obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
+      time_line = obj[j]["b"];
+    } else {
+      obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
+      time_line = obj[j]["b"];
+    }
+  }
+  console.log(obj);
 
-  var item = "ba7bk ya 7mar";
+  var item = JSON.stringify(obj);
   ipcRenderer.send("item:add", item);
 }
