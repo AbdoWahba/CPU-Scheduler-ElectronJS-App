@@ -24,41 +24,27 @@ app.on("ready", function() {
 });
 
 //handle chart window
-// function creatAddWindow() {
-//   addWindow = new BrowserWindow({
-//     height: 1000,
-//     width: 1000,
-//     title: "Chart Window"
-//   });
-//   //load html into window
-//   addWindow.loadURL(
-//     url.format({
-//       pathname: path.join(__dirname, "chartWindow.html"),
-//       protocol: "file:",
-//       slashes: true
-//     })
-//   );
-// }
+function creatAddWindow() {
+  addWindow = new BrowserWindow({
+    height: 1000,
+    width: 1000,
+    title: "Chart Window"
+  });
+  //load html into window
+  addWindow.loadURL(
+    url.format({
+      pathname: path.join(__dirname, "chartWindow.html"),
+      protocol: "file:",
+      slashes: true
+    })
+  );
+}
 //catch data
 ipcMain.on("item:add", function(e, item) {
-  // "use strict";
-  // addWindow = new BrowserWindow({
-  //   height: 1000,
-  //   width: 1000,
-  //   title: "Chart Window"
-  // });
-  // //load html into window
-  // addWindow.loadURL(
-  //   url.format({
-  //     pathname: path.join(__dirname, "chartWindow.html"),
-  //     protocol: "file:",
-  //     slashes: true
-  //   })
-  // );
-  // addWindow.show();
-  // addWindow.focus();
+  creatAddWindow();
   console.log(item);
 });
+
 // const mainMenuTemp = [
 //   {
 //     lable: "File",
