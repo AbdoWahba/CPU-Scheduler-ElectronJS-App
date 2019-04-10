@@ -73,6 +73,7 @@ function append_based_on_type_and_number() {
 function submitform(e) {
   //e.preventDefault();
   var no_of_Processes = document.getElementById("no of Processes").value;
+  var type_of_scheduler = document.getElementById("type of scheduler").value;
   var obj = [];
   for (let j = 1; j <= no_of_Processes; j++) {
     var burst = document.getElementById("burst" + j).value;
@@ -80,33 +81,34 @@ function submitform(e) {
     obj[j - 1] = { p: "p" + j, a: Number(arrival), b: Number(burst) };
   }
 
-  console.log(obj);
+  //console.log(obj);
 
   var time_line = 0;
-
-  for (let j = 0; j < no_of_Processes; j++) {
-    for (let zo = 0; zo < no_of_Processes - 1; zo++) {
-      if (obj[zo]["a"] > obj[zo + 1]["a"]) {
-        var temp = obj[zo + 1];
-        obj[zo + 1] = obj[zo];
-        obj[zo] = temp;
+  if (type_of_scheduler == "FCFS") {
+    for (let j = 0; j < no_of_Processes; j++) {
+      for (let zo = 0; zo < no_of_Processes - 1; zo++) {
+        if (obj[zo]["a"] > obj[zo + 1]["a"]) {
+          var temp = obj[zo + 1];
+          obj[zo + 1] = obj[zo];
+          obj[zo] = temp;
+        }
       }
     }
-  }
-  console.log(obj);
-  for (let j = 0; j < no_of_Processes; j++) {
-    if (time_line >= obj[j]["a"]) {
-      obj[j]["a"] = time_line;
-      obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
-      time_line = obj[j]["b"];
-    } else {
-      obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
-      time_line = obj[j]["b"];
+    console.log(obj);
+    for (let j = 0; j < no_of_Processes; j++) {
+      if (time_line >= obj[j]["a"]) {
+        obj[j]["a"] = time_line;
+        obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
+        time_line = obj[j]["b"];
+      } else {
+        obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
+        time_line = obj[j]["b"];
+      }
     }
+    console.log(obj);
+  } else if (type_of_scheduler == "SJF-N") {
+    //
   }
-  console.log(obj);
-
   var item = JSON.stringify(obj);
   ipcRenderer.send("item:add", item);
 }
-
