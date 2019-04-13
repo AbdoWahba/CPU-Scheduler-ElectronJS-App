@@ -72,81 +72,55 @@ function append_based_on_type_and_number() {
 }
 function submitform(e) {
   e.preventDefault();
+
   var no_of_Processes = document.getElementById("no of Processes").value;
   var obj = [];
-  var total_burst_time = 0;
   for (let j = 1; j <= no_of_Processes; j++) {
-      var burst = document.getElementById("burst" + j).value;
-      var arrival = document.getElementById("arrival" + j).value;
-      // var priority = document.getElementById("priority" + j).value;
-      obj[j - 1] = { p: "p" + j, a: Number(arrival), b: Number(burst)};
-      total_burst_time += Number(burst);
+    var burst = document.getElementById("burst" + j).value;
+    var arrival = document.getElementById("arrival" + j).value;
+    obj[j - 1] = { p: "p" + j, a: Number(arrival), b: Number(burst)};
   }
+  
+  sort(obj);
+}
 
-  console.log(obj.length);
-  console.log(total_burst_time);
+
+function sort(process){
+  job_queue = process.slice();
+  ready_queue = [];
+
+  let total_burst_time = 0;
+  job_queue.forEach((x)=>{
+    total_burst_time += Number(x.b);
+  });
+
+  for (let j = 0; j < job_queue.length; j++) {
+    for (let zo = 0; zo < job_queue.length - 1; zo++) {
+      if (job_queue[zo]["b"] > job_queue[zo + 1]["b"]) {
+        var temp = job_queue[zo + 1];
+        job_queue[zo + 1] = job_queue[zo];
+        job_queue[zo] = temp;
+      }
+    }
+  }
 
   var time_line = 0;
-
-  for (let j = 0; j < no_of_Processes; j++) {
-      for (let zo = 0; zo < no_of_Processes - 1; zo++) {
-          if (obj[zo]["b"] > obj[zo + 1]["b"]) {
-              var temp = obj[zo + 1];
-              obj[zo + 1] = obj[zo];
-              obj[zo] = temp;
-          }
-      }
-  }
-  // console.log(obj);
-  var obj2 = [];
   while(total_burst_time > 0){
-    console.log(obj);
-    var arr = [];
-
-    k = obj.slice();
-    arr = k.find(x => {
-      console.log(x)
-      return (x["a"] <= time_line && a.b != 0);
+    console.log(time_line);
+    let interupted_elements = job_queue.filter(x => {
+      return ((x["a"] <= time_line) && (x.b != 0));
     });
-    // console.log(arr)
-    // if (arr.length > 0) {
-    //   let index = obj.findIndex(x => x.p == arr[0]["p"]);
-    //   obj[index].b--;
-    //   obj2.push({ p: obj[index]["p"], a: Number(time_line), b: 1 });
-    //   total_burst_time--;
-    // }
+
+    if(interupted_elements.length > 0){
+      let index = job_queue.findIndex(x => x.p == interupted_elements[0]["p"]);
+      job_queue[index]['b']--;
+      ready_queue.push({ p: job_queue[index]["p"], a: Number(time_line), b: time_line + 1 });
+      total_burst_time--;
+    }else{  
+      /** free time */
+      ready_queue.push({ p: 'Free', a: Number(time_line), b: time_line + 1 });
+    }
     time_line++;
   }
-  console.log(obj2);
-
-  // var current = 0;
-  // var counter = 0;
-  // var j = document.getElementById("no of Processes").value;
-  // var obj2 = [];
-  // while(j>=0){
-  //     if(obj[counter]['a']==time_line){
-  //         j--;
-  //         counter++;
-  //     }
-  //     if(obj[current]['b']>obj[counter]['b']){
-  //         current = counter;
-  //     }
-  //     obj[current]--;
-  //     obj2.push({ p: "p" + current, a: Number(time_line), b: Number(1)});
-  // }
-  // console,log(obj2);
-  // for (let j = 0; j < no_of_Processes; j++) {
-  //     if (time_line >= obj[j]["a"]) {
-  //         obj[j]["a"] = time_line;
-  //         obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
-  //         time_line = obj[j]["b"];
-  //     } else {
-  //         obj[j]["b"] = obj[j]["a"] + obj[j]["b"];
-  //         time_line = obj[j]["b"];
-  //     }
-  // }
-  // console.log(obj);
-
-//   var item = JSON.stringify(obj);
-//   ipcRenderer.send("item:add", item);
+  console.log(ready_queue);
 }
