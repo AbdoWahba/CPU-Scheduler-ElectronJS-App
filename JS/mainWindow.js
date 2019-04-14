@@ -1,7 +1,9 @@
 //adding electron library and seting ipcPenderer
 const electron = require("electron");
 const { ipcRenderer } = electron;
+var fs = require("fs");
 
+var item = 0;
 //event when form is submitted
 const form = document.querySelector("form");
 form.addEventListener("submit", submitform);
@@ -71,8 +73,10 @@ function append_based_on_type_and_number() {
   }
 }
 function submitform(e) {
-  //e.preventDefault();
+  e.preventDefault();
+
   var no_of_Processes = document.getElementById("no of Processes").value;
+  ipcRenderer.send("HALLA", "ANA");
   var type_of_scheduler = document.getElementById("type of scheduler").value;
   var obj = [];
   for (let j = 1; j <= no_of_Processes; j++) {
@@ -109,6 +113,15 @@ function submitform(e) {
   } else if (type_of_scheduler == "SJF-N") {
     //
   }
-  var item = JSON.stringify(obj);
+  item = JSON.stringify(obj);
+  var filename = "item.txt";
+  if (!fs.existsSync("./item")) {
+    fs.mkdirSync("./item");
+  }
+  fs.writeFile("./item/" + filename, item, err => {
+    if (err) throw err;
+    console.log('The "data to append" was appended to file!');
+    document.getElementById("mail").value = "";
+  });
   ipcRenderer.send("item:add", item);
 }

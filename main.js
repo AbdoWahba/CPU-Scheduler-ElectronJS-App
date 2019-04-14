@@ -19,18 +19,15 @@ app.on("ready", function() {
       slashes: true
     })
   );
-  // const mainMenu = Menu.buildFromTemplate(mainMenuTemp);
-  // Menu.setApplicationMenu(mainMenu);
 });
 
-//handle chart window
 function creatAddWindow() {
   addWindow = new BrowserWindow({
     height: 1000,
     width: 1000,
     title: "Chart Window"
   });
-  //load html into window
+
   addWindow.loadURL(
     url.format({
       pathname: path.join(__dirname, "chartWindow.html"),
@@ -39,28 +36,11 @@ function creatAddWindow() {
     })
   );
 }
-//catch data
+
 ipcMain.on("item:add", function(e, item) {
   creatAddWindow();
+  addWindow.show();
+  addWindow.focus();
+  addWindow.webContents.send("item:ele", item);
   console.log(item);
 });
-
-// const mainMenuTemp = [
-//   {
-//     lable: "File",
-//     submenue: [
-//       {
-//         lable: "add item",
-//         click() {
-//           creatAddWindow();
-//         }
-//       },
-//       {
-//         lable: "delete",
-//         click() {
-//           app.quit();
-//         }
-//       }
-//     ]
-//   }
-// ];
