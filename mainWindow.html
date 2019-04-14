@@ -12,42 +12,49 @@
       <div class="card mb-6 col-sm-10 ">
         <div class="card-body ">
           <form class="m-1" onkeypress="return disable_enter_key(event)">
-            <div class="form-group">
-              <label>Type of scheduler</label>
-              <select
-                id="type of scheduler"
-                class="form-control"
-                placeholder="Type of scheduler"
-                onchange="append_based_on_type_and_number()"
-              >
-                <option disabled>Select type of scheduler ...</option>
-                <option>FCFS</option>
-                <option value="SJF-N">SJF-Nonpremptive</option>
-                <option value="SJF-P">SJF-Premptive</option>
-                <option value="Priority-N">Priority-Nonpremptive</option>
-                <option value="Priority-P">Priority-Premptive</option>
-                <option>RR</option>
-              </select>
-            </div>
-            <div class="form-group integer optional user_friends">
-              <label class="integer optional" for="user_friends"
-                >No of Processes</label
-              ><input
-                min="0"
-                class="form-control numeric integer optional"
-                placeholder="Enter no of Processes"
-                type="number"
-                step="1"
-                onchange="append_based_on_type_and_number()"
-                id="no of Processes"
-              />
+            <div class="row">
+              <div class="col">
+                <div class="form-group">
+                  <label>Type of scheduler</label>
+                  <select
+                    id="type of scheduler"
+                    class="form-control"
+                    placeholder="Type of scheduler"
+                    onchange="append_based_on_type_and_number()"
+                  >
+                    <option disabled>Select type of scheduler ...</option>
+                    <option>FCFS</option>
+                    <option value="SJF-N">SJF-Nonpremptive</option>
+                    <option value="SJF-P">SJF-Premptive</option>
+                    <option value="Priority-N">Priority-Nonpremptive</option>
+                    <option value="Priority-P">Priority-Premptive</option>
+                    <option>RR</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col">
+                <div class="form-group integer optional user_friends">
+                  <label class="integer optional" for="user_friends"
+                    >No of Processes</label
+                  ><input
+                    min="0"
+                    class="form-control numeric integer optional"
+                    placeholder="Enter no of Processes"
+                    type="number"
+                    step="1"
+                    onchange="append_based_on_type_and_number()"
+                    id="no of Processes"
+                  />
+                </div>
+              </div>
               <hr />
             </div>
+
             <div id="wrapper"></div>
           </form>
         </div>
       </div>
     </div>
-    <script src="JS/mainWindow.js"></script>
+    <script src="JS/sorting.p.js"></script>
   </body>
 </html>
