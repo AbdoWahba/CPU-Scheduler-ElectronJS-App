@@ -230,7 +230,7 @@ function FCFS(process) {
       }
     }
   }
-
+  var obj2 = obj;
   for (let j = 0; j < obj.length; j++) {
     if (time_line >= obj[j]["a"]) {
       obj[j]["a"] = time_line;
@@ -241,6 +241,7 @@ function FCFS(process) {
       time_line = obj[j]["b"];
     }
   }
+
   return obj.slice();
 }
 
