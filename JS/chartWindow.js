@@ -5,7 +5,9 @@ let ana;
 fs.readFile("./item/item.txt", function(err, buf, ana) {
   console.log(buf.toString());
   ana = JSON.parse(buf);
-
+  console.log(ana["awt"]);
+  var s = document.getElementById("awt");
+  s.innerHTML = String(ana["awt"]);
   console.log(ana);
   var clr = {
     p1: "lightsteelblue",

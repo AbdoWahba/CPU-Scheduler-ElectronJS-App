@@ -1,1 +1,1 @@
-{"awt":0.5,"ready_queue":[{"p":"p1","a":1,"b":2},{"p":"p2","a":2,"b":3}]}
+{"awt":4,"ready_queue":[{"p":"p1","a":0,"b":3,"priority":null},{"p":"p2","a":3,"b":9,"priority":null},{"p":"p3","a":9,"b":33,"priority":null}]}

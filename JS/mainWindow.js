@@ -66,7 +66,7 @@ function append_based_on_type_and_number() {
                 <label for="burst-` +
         i +
         `">Burst Time</label>
-                <input type="number" step="1" min="0" class="form-control" placeholder="Burst of Process ` +
+                <input type="number" step="1" min="1" class="form-control" placeholder="Burst of Process ` +
         i +
         `"
                   id="burst-` +
@@ -87,7 +87,7 @@ function append_based_on_type_and_number() {
                 <label for="priority-` +
           i +
           `">priority</label>
-                <input type="number" step="1" min="0" class="form-control" placeholder="Priority of Process ` +
+                <input type="number" required step="1" min="1" class="form-control" placeholder="Priority of Process ` +
           i +
           `"
                   id="priority-` +
@@ -205,16 +205,38 @@ function RR(process) {
               };
         // time_line = obj[j]["b"];
         obj[j]["b"] = quant <= obj[j]["b"] ? obj[j]["b"] - quant : 0;
-        console.log(time_line);
+        //console.log(time_line);
         time_line = out[out.length - 1]["b"];
         flg = 0;
       } else {
         flg++;
-        console.log("here");
+        //console.log("here");
       }
     }
   }
-  return out.slice();
+  TT = 0;
+  ele = [];
+  for (let i = 0; i < out.length; i++) {
+    if (!ele.includes(out[i]["p"])) {
+      TT +=
+        out[i]["a"] -
+        document.getElementById("arrival-" + out[i]["p"].substring(1)).value;
+      ele[ele.length] = out[i]["p"];
+      // console.log(out[i]["p"] + TT);
+      // console.log(ele);
+    }
+    else{
+      for(let j = i-1; j>=0;j--){
+        if (out[j]["p"]==out[i]["p"]){
+          TT += out[i]["a"] - out[j]["b"];
+          break;
+        }
+      }
+    }
+  }
+  console.log(TT);
+  TT = TT / document.getElementById("no of Processes").value;
+  return { awt: TT, ready_queue: out.slice() };
 }
 
 function FCFS(process) {
@@ -329,12 +351,17 @@ function sort_preemptive(process, type) {
   /** avg waiting time */
   let avg_waiting_time = 0;
   job_queue.forEach(p => {
-    let proc = ready_queue.find(x => x.p == p.p);
-    avg_waiting_time += proc.a - p.a; /** over number of processes */
+    let p_arrival = p.a;
+    let proc = ready_queue.filter(x => x.p == p.p);
+    let prev_finish = 0;
+    proc.forEach(x=>{
+      avg_waiting_time += ( x.a - prev_finish);
+      prev_finish = x.b;
+    })
+    avg_waiting_time -= p_arrival; /** over number of processes */
   });
 
   avg_waiting_time = avg_waiting_time / job_queue.length;
-
   return {
     awt: avg_waiting_time,
     ready_queue: ready_queue.slice()
@@ -444,7 +471,7 @@ function sort_nonpreemptive(process, type) {
   };
 }
 
-function merge_duplicates(arr){
+function merge_duplicates(arr) {
   arr2 = arr.slice();
 
   for (let i = 0; i < arr2.length; i++) {
@@ -457,5 +484,5 @@ function merge_duplicates(arr){
     }
   }
 
-  return arr2.slice()
+  return arr2.slice();
 }
