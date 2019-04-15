@@ -443,3 +443,19 @@ function sort_nonpreemptive(process, type) {
     ready_queue: ready_queue.slice()
   };
 }
+
+function merge_duplicates(arr){
+  arr2 = arr.slice();
+
+  for (let i = 0; i < arr2.length; i++) {
+    if (arr2[i + 1]) {
+      if (arr2[i].p == arr2[i + 1].p) {
+        arr2[i].b = arr2[i + 1].b;
+        arr2.splice(arr2.indexOf(arr2[i + 1]), 1);
+        i--;
+      }
+    }
+  }
+
+  return arr2.slice()
+}
