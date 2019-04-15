@@ -110,26 +110,26 @@ fs.readFile("./item/item.txt", function(err, buf, ana) {
     p100: ""
   };
   var dataset = [];
-  for (let i = 0; i < ana.length; i++) {
+  for (let i = 0; i < ana["ready_queue"].length; i++) {
     dataset[i] = {
       showLine: true,
-      label: ana[i]["p"],
+      label: ana["ready_queue"][i]["p"],
       steppedLine: true,
 
       text: "p1",
 
       data: [
         {
-          x: ana[i]["a"],
+          x: ana["ready_queue"][i]["a"],
           y: 1
         },
         {
-          x: ana[i]["b"],
+          x: ana["ready_queue"][i]["b"],
           y: 1
         }
       ],
 
-      borderColor: [clr[ana[i]["p"]]],
+      borderColor: [clr[ana["ready_queue"][i]["p"]]],
       backgroundColor: ["rgba(255, 99, 132, 0)"],
       borderWidth: 5
     };

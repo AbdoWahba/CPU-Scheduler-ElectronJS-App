@@ -241,19 +241,27 @@ function FCFS(process) {
       time_line = obj[j]["b"];
     }
   }
-  return obj.slice();
+  totaltime = 0;
+  for (let j = 0; j < obj.length; j++) {
+    totaltime +=
+      obj[j]["a"] -
+      document.getElementById("arrival-" + obj[j]["p"].substring(1)).value;
+  }
+  totaltime = totaltime / document.getElementById("no of Processes").value;
+  console.log(totaltime);
+  return { awt: totaltime, ready_queue: obj.slice() };
 }
 
 function sort_preemptive(process, type) {
   job_queue = process.slice();
   ready_queue = [];
-  
+
   /** calc total burst time */
   let total_burst_time = 0;
   job_queue.forEach(x => {
     total_burst_time += Number(x.b);
   });
-  
+
   /** sort processes */
   for (let j = 0; j < job_queue.length; j++) {
     for (let zo = 0; zo < job_queue.length - 1; zo++) {
@@ -278,14 +286,14 @@ function sort_preemptive(process, type) {
       }
     }
   }
-  
+
   /** split processes */
   var time_line = 0;
   while (total_burst_time > 0) {
     let arrived_elements = job_queue.filter(x => {
       return x["a"] <= time_line && x.b != 0;
     });
-    
+
     if (arrived_elements.length > 0) {
       let index = job_queue.findIndex(x => x.p == arrived_elements[0]["p"]);
       job_queue[index]["b"]--;
@@ -301,12 +309,12 @@ function sort_preemptive(process, type) {
     }
     time_line++;
   }
-  
+
   /** Delete free process */
   ready_queue = ready_queue.filter(x => {
     return x.p != "Free";
   });
-  
+
   /** merge repeated process */
   for (let i = 0; i < ready_queue.length; i++) {
     if (ready_queue[i + 1]) {
@@ -317,20 +325,20 @@ function sort_preemptive(process, type) {
       }
     }
   }
-  
+
   /** avg waiting time */
   let avg_waiting_time = 0;
   job_queue.forEach(p => {
-    let proc = ready_queue.find(x => x.p == p.p )
-    avg_waiting_time += ((proc.a) - (p.a)) /** over number of processes */
-  })
-  
+    let proc = ready_queue.find(x => x.p == p.p);
+    avg_waiting_time += proc.a - p.a; /** over number of processes */
+  });
+
   avg_waiting_time = avg_waiting_time / job_queue.length;
-  
+
   return {
-    awt : avg_waiting_time,
+    awt: avg_waiting_time,
     ready_queue: ready_queue.slice()
-  }
+  };
 }
 
 function sort_nonpreemptive(process, type) {
@@ -421,18 +429,17 @@ function sort_nonpreemptive(process, type) {
     }
   }
 
-  
   /** avg waiting time */
   let avg_waiting_time = 0;
   job_queue.forEach(p => {
-    let proc = ready_queue.find(x => x.p == p.p )
-    avg_waiting_time += ((proc.a) - (p.a)) /** over number of processes */
-  })
+    let proc = ready_queue.find(x => x.p == p.p);
+    avg_waiting_time += proc.a - p.a; /** over number of processes */
+  });
 
   avg_waiting_time = avg_waiting_time / job_queue.length;
 
   return {
-    awt : avg_waiting_time,
+    awt: avg_waiting_time,
     ready_queue: ready_queue.slice()
-  }
+  };
 }
